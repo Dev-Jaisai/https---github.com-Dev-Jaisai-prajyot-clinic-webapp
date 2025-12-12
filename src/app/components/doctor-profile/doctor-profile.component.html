@@ -1,0 +1,195 @@
+<div class="doctor-card card border-0 shadow-lg h-100" 
+     [attr.data-aos]="index % 2 === 0 ? 'fade-right' : 'fade-left'"
+     [attr.data-aos-delay]="index * 100">
+  
+  <div class="card-header bg-primary text-white py-4">
+    <div class="d-flex justify-content-between align-items-center">
+      <div>
+        <h3 class="mb-1">{{doctor.name.replace('Panpatte', '').trim()}}</h3>
+        <p class="mb-0">
+          <i class="fas fa-graduation-cap me-2"></i>
+          {{doctor.degrees.join(', ')}}
+        </p>
+      </div>
+      <div class="badge bg-light text-primary p-2">
+        <i class="fas fa-{{doctor.gender === 'male' ? 'male' : 'female'}} me-1"></i>
+        {{doctor.gender === 'male' ? 'Male' : 'Female'}} Doctor
+      </div>
+    </div>
+  </div>
+
+  <div class="card-body p-4">
+    <div class="row mb-4">
+      <div class="col-md-4 text-center mb-3 mb-md-0">
+        <div class="doctor-image mb-3">
+          <!-- FIXED: Changed from hardcoded src to dynamic binding -->
+          <img [src]="doctor.imageUrl" 
+               [alt]="doctor.name"
+               class="img-fluid rounded-4 shadow-lg doctor-profile-image"
+               (error)="onImageError($event)">
+        </div>
+        <div class="rating mb-2">
+          <span class="text-warning">
+            <ng-container *ngFor="let star of getStars(doctor.hospital.rating)">
+              <i *ngIf="star === 1" class="fas fa-star"></i>
+              <i *ngIf="star === 0.5" class="fas fa-star-half-alt"></i>
+              <i *ngIf="star === 0" class="far fa-star"></i>
+            </ng-container>
+          </span>
+          <span class="ms-2">{{doctor.hospital.rating}}/5</span>
+        </div>
+        <h4 class="text-success fw-bold mb-1">₹{{doctor.consultationFee}}</h4>
+        <small class="text-muted">Consultation Fee</small>
+      </div>
+      
+      <div class="col-md-8">
+        <h4 class="text-primary mb-3">
+          <i class="fas fa-briefcase-medical me-2"></i>
+          {{doctor.specialization}}
+        </h4>
+        
+        <div class="experience-box bg-light p-3 rounded mb-3">
+          <h5 class="mb-2">
+            <i class="fas fa-chart-line me-2"></i>
+            Professional Experience
+          </h5>
+          <div class="row">
+            <div class="col-6">
+              <div class="text-center p-2">
+                <small class="text-muted">Years Experience Overall</small>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="text-center p-2">
+                <h2 class="text-primary mb-0">{{doctor.experience.asSpecialist}}+</h2>
+                <small class="text-muted">Years as Specialist</small>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <p class="mb-4">{{doctor.description}}</p>
+
+        <div class="row mb-4">
+          <div class="col-md-6 mb-3">
+            <h6 class="text-primary mb-2">
+              <i class="fas fa-calendar-alt me-2"></i>
+              Consultation Schedule
+            </h6>
+            <div class="schedule-box bg-light p-3 rounded">
+              <ul class="list-unstyled mb-0">
+                <li *ngFor="let slot of doctor.schedule" class="mb-2">
+                  <i class="far fa-clock text-primary me-2"></i>
+                  <strong>{{slot.day}}:</strong> {{slot.timing}}
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <h6 class="text-primary mb-2">
+              <i class="fas fa-hospital me-2"></i>
+              Hospital & Location
+            </h6>
+            <div class="hospital-info bg-light p-3 rounded">
+              <h6 class="mb-1">{{doctor.hospital.name}}</h6>
+              <p class="mb-2 small">
+                <i class="fas fa-map-marker-alt text-primary me-1"></i>
+                {{doctor.hospital.address}}<br>
+                <span class="text-muted">{{doctor.hospital.landmark}}</span><br>
+                {{doctor.hospital.city}}
+              </p>
+         <button class="btn btn-sm btn-primary mt-2"
+        (click)="openGoogleMaps(18.6010502, 73.7456099)">
+  <i class="fas fa-directions me-1"></i> Get Directions
+</button>
+
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row mb-4">
+      <div class="col-md-6 mb-3">
+        <h5 class="text-primary mb-3">
+          <i class="fas fa-graduation-cap me-2"></i>
+          Education & Qualifications
+        </h5>
+        <div class="education-list">
+          <div *ngFor="let edu of doctor.education" class="mb-3">
+            <div class="d-flex align-items-start">
+              <i class="fas fa-certificate text-primary mt-1 me-2"></i>
+              <div>
+                <strong>{{edu.degree}}</strong><br>
+                <small class="text-muted">{{edu.institution}} ({{edu.year}})</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-md-6">
+        <h5 class="text-primary mb-3">
+          <i class="fas fa-stethoscope me-2"></i>
+          Specialized Services
+        </h5>
+        <div class="services-tags">
+          <span *ngFor="let service of doctor.services" 
+                class="badge bg-primary-light text-primary border border-primary mb-2 me-2 p-2">
+            {{service}}
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-4" *ngIf="doctor.qna && doctor.qna.length > 0">
+      <h5 class="text-primary mb-3">
+        <i class="fas fa-question-circle me-2"></i>
+        Frequently Asked Questions
+      </h5>
+      <div class="accordion" id="qnaAccordion{{doctor.id}}">
+        <div class="accordion-item border-0 mb-2" *ngFor="let item of doctor.qna; let i = index">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed bg-light" type="button"
+                    [attr.data-bs-toggle]="'collapse'"
+                    [attr.data-bs-target]="'#collapse' + doctor.id + i"
+                    [attr.aria-expanded]="'false'">
+              <i class="fas fa-question text-primary me-2"></i>
+              {{item.question}}
+            </button>
+          </h2>
+          <div [id]="'collapse' + doctor.id + i" 
+               class="accordion-collapse collapse"
+               [attr.data-bs-parent]="'#qnaAccordion' + doctor.id">
+            <div class="accordion-body bg-white">
+              <i class="fas fa-check-circle text-success me-2"></i>
+              {{item.answer}}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card-footer bg-light border-0 py-3">
+    <div class="d-flex justify-content-between align-items-center flex-wrap">
+      <div class="mb-2 mb-md-0">
+        <i class="fas fa-id-card text-primary me-2"></i>
+        <small class="text-muted">
+          Registration: {{doctor.registration.number}} | {{doctor.registration.council}} ({{doctor.registration.year}})
+        </small>
+      </div>
+      <div class="d-flex gap-2">
+        <a [href]="'tel:' + doctor.contact.phone" 
+           class="btn btn-primary btn-sm">
+          <i class="fas fa-phone me-1"></i> Call: {{doctor.contact.phone}}
+        </a>
+        <a [href]="'mailto:' + doctor.contact.email" 
+           class="btn btn-outline-primary btn-sm">
+          <i class="fas fa-envelope me-1"></i> Email
+        </a>
+      </div>
+    </div>
+  </div>
+</div>

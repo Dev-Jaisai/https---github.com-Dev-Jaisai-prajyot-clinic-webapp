@@ -1,0 +1,156 @@
+<section id="home" class="hero-section position-relative overflow-hidden">
+  <!-- Background Elements -->
+  <div class="hero-bg-shape shape-1 floating"></div>
+  <div class="hero-bg-shape shape-2 floating" style="animation-delay: 2s;"></div>
+  
+  <!-- Particles Background -->
+  <div class="particles-container"></div>
+
+  <div class="container position-relative z-index-2">
+    <div class="row align-items-center min-vh-100 py-5">
+      <!-- Left Content -->
+      <div class="col-lg-6 mb-5 mb-lg-0" data-aos="fade-right" data-aos-delay="200">
+        <div class="hero-content">
+          <h6 class="text-uppercase text-primary fw-bold mb-3 ls-2">
+            <i class="fas fa-heartbeat me-2"></i> WELCOME TO
+          </h6>
+          
+          <!-- FIX THIS LINE: Change Panpatte to Prajyot Surgicare -->
+          <h1 class="display-3 fw-bold mb-4">
+            Prajyot <span class="text-gradient-primary">Surgicare</span> Clinic
+          </h1>
+          
+          <h2 class="typewriter-text mb-4" style="min-height: 60px;">
+            <span class="text-primary">{{txtHero}}</span>
+            <span class="typewriter-cursor"></span>
+          </h2>
+          
+          <!-- FIX THIS PARAGRAPH: Update description -->
+          <p class="lead mb-4">
+            Providing advanced surgical and ENT care with expertise and dedication. 
+            Our team of specialist surgeons ensures comprehensive healthcare with modern surgical techniques.
+          </p>
+          
+          <div class="d-flex flex-wrap gap-3 mb-5">
+            <div class="feature-item d-flex align-items-center me-4">
+              <div class="feature-icon rounded-circle bg-primary-light text-primary d-flex align-items-center justify-content-center me-3" style="width: 50px; height: 50px;">
+                <i class="fas fa-stethoscope"></i>
+              </div>
+              <div>
+                <h6 class="mb-1">Expert Surgeons</h6>
+                <small class="text-muted">Specialized Care</small>
+              </div>
+            </div>
+            
+            <div class="feature-item d-flex align-items-center">
+              <div class="feature-icon rounded-circle bg-secondary-light text-secondary d-flex align-items-center justify-content-center me-3" style="width: 50px; height: 50px;">
+                <i class="fas fa-clock"></i>
+              </div>
+              <div>
+                <h6 class="mb-1">24/7 Emergency</h6>
+                <small class="text-muted">Always Available</small>
+              </div>
+            </div>
+          </div>
+          
+          <div class="d-flex flex-wrap gap-3">
+            <button (click)="scrollToSection('doctors')" class="btn btn-primary btn-lg shadow-lg">
+              <i class="fas fa-user-md me-2"></i> Meet Our Surgeons
+            </button>
+            <a href="#contact" class="btn btn-outline-primary btn-lg">
+              <i class="fas fa-calendar me-2"></i> Book Appointment
+            </a>
+            <a href="tel:+919284265655" class="btn btn-success btn-lg">
+              <i class="fas fa-phone me-2"></i> Emergency Call
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Content - Doctor Cards -->
+      <div class="col-lg-6">
+        <div class="row g-4">
+          <!-- Doctor 1 Card -->
+          <div class="col-md-6" data-aos="fade-left" data-aos-delay="400">
+            <div class="doctor-hero-card card-nikhil h-100">
+              <div class="doctor-image-wrapper position-relative">
+                <img [src]="doctor1.imageUrl" 
+                     alt="Dr. Nikhil" 
+                     class="doctor-hero-img rounded-4 shadow-lg"
+                     (error)="onHeroImageError($event, 'male')">
+              
+              </div>
+              
+              <div class="doctor-info p-4">
+                <!-- FIX DOCTOR NAME: Remove "Panpatte" -->
+                <h5 class="text-primary fw-bold mb-2">{{doctor1.name.replace('Panpatte', '').trim()}}</h5>
+                <p class="text-dark fw-bold mb-3">
+                  <i class="fas fa-graduation-cap me-2 text-primary"></i>
+                  <span class="typewriter-degree">{{ txtDegree1 }}</span>
+                  <span class="typewriter-cursor"></span>
+                </p>
+                <p class="text-muted mb-4 small">{{doctor1.description}}</p>
+                
+                <div class="d-flex justify-content-between align-items-center">
+                  <div>
+                    <h4 class="text-success fw-bold mb-0">₹{{doctor1.consultationFee}}</h4>
+                    <small class="text-muted">Consultation Fee</small>
+                  </div>
+                  <button (click)="scrollToSection('doctors')" class="btn btn-primary btn-sm">
+                    View Profile
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Doctor 2 Card -->
+          <div class="col-md-6" data-aos="fade-left" data-aos-delay="600">
+            <div class="doctor-hero-card card-priyanka h-100">
+              <div class="doctor-image-wrapper position-relative">
+                <img [src]="doctor2.imageUrl" 
+                     alt="Dr. Priyanka" 
+                     class="doctor-hero-img rounded-4 shadow-lg"
+                     (error)="onHeroImageError($event, 'female')">
+              
+              </div>
+              
+              <div class="doctor-info p-4">
+                <!-- FIX DOCTOR NAME: Remove "Panpatte" -->
+                <h5 class="text-secondary fw-bold mb-2">{{doctor2.name.replace('Panpatte', '').trim()}}</h5>
+                <p class="text-dark fw-bold mb-3">
+                  <i class="fas fa-graduation-cap me-2 text-secondary"></i>
+                  <span class="typewriter-degree">{{ txtDegree2 }}</span>
+                  <span class="typewriter-cursor"></span>
+                </p>
+                <p class="text-muted mb-4 small">{{doctor2.description}}</p>
+                
+                <div class="d-flex justify-content-between align-items-center">
+                  <div>
+                    <h4 class="text-success fw-bold mb-0">₹{{doctor2.consultationFee}}</h4>
+                    <small class="text-muted">Consultation Fee</small>
+                  </div>
+                  <button (click)="scrollToSection('doctors')" class="btn btn-secondary btn-sm">
+                    View Profile
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scroll Indicator -->
+  <div class="scroll-indicator" data-aos="fade-up" data-aos-delay="800">
+    <a href="#doctors" class="text-decoration-none">
+      <div class="mouse">
+        <div class="wheel"></div>
+      </div>
+      <div class="arrow">
+        <i class="fas fa-chevron-down"></i>
+      </div>
+    </a>
+  </div>
+</section>
